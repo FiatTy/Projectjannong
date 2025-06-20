@@ -3,122 +3,88 @@
         "id": "001",
         "name": "Vanilla Ice Cream",
         "img": [
-            "img/product-1.jpg"
+            "img/VanillaIceCream.jpg"
         ],
-        "price": "180.00",
-        "detail": "𝙉𝙚𝙬 𝘾𝙤𝙡𝙡𝙚𝙘𝙩𝙞𝙤𝙣 Vanilla ",
-        "type": "Goye",
+        "price": "89",
+        "detail": " Vanilla ice cream is a universally beloved frozen ",
+        "type": "Ice cream cone",
         "onShop": true
     },
     {
         "id": "002",
-        "name": "Vanilla Ice Cream",
+        "name": "Choco Lava Bliss",
         "img": [
-            "img/product-1.jpg"
+            "img/ChocoLavaBliss.jpg"
         ],
-        "price": "180.00",
-        "detail": "𝙉𝙚𝙬 𝘾𝙤𝙡𝙡𝙚𝙘𝙩𝙞𝙤𝙣 Vanilla ",
-        "type": "Goye",
+        "price": "45",
+        "detail": "ice cream flavor inspired by the classic molten chocolate ",
+        "type": "Ice cream cup",
         "onShop": true
     },
     {
         "id": "003",
-        "name": "Vanilla Ice Cream",
+        "name": "Strawberry Sunset",
         "img": [
-            "img/product-1.jpg"
+            "img/StrawberrySunset.jpg"
         ],
-        "price": "180.00",
-        "detail": "𝙉𝙚𝙬 𝘾𝙤𝙡𝙡𝙚𝙘𝙩𝙞𝙤𝙣 Vanilla ",
-        "type": "Goye",
+        "price": "99",
+        "detail": "Ice cream is a popular frozen dessert typically  ",
+        "type": "Ice cream cup",
         "onShop": true
     },
     {
         "id": "004",
-        "name": "Vanilla Ice Cream",
+        "name": "Minty Frostbite",
         "img": [
-            "img/product-1.jpg"
+            "img/MintyFrostbite.png"
         ],
-        "price": "180.00",
-        "detail": "𝙉𝙚𝙬 𝘾𝙤𝙡𝙡𝙚𝙘𝙩𝙞𝙤𝙣 Vanilla ",
-        "type": "Goye",
+        "price": "42",
+        "detail": "Minty Frostbite is an ice cream flavor ",
+        "type": "Ice cream cup",
         "onShop": true
     },
     {
         "id": "005",
-        "name": "Vanilla Ice Cream",
+        "name": "Mango Tango Twist",
         "img": [
-            "img/product-1.jpg"
+            "img/MangoTangoTwist.png"
         ],
-        "price": "180.00",
-        "detail": "𝙉𝙚𝙬 𝘾𝙤𝙡𝙡𝙚𝙘𝙩𝙞𝙤𝙣 Vanilla ",
-        "type": "Goye",
+        "price": "40",
+        "detail": " sounds like a fun, vibrant, and tropical ice cream flavor! ",
+        "type": "Ice cream cup",
         "onShop": true
     },
     {
         "id": "006",
-        "name": "Vanilla Ice Cream",
+        "name": "Caramel Sea Salt Swir",
         "img": [
-            "img/product-1.jpg"
+            "img/CaramelSeaSaltSwir.png"
         ],
-        "price": "180.00",
-        "detail": "𝙉𝙚𝙬 𝘾𝙤𝙡𝙡𝙚𝙘𝙩𝙞𝙤𝙣 Vanilla ",
-        "type": "Goye",
+        "price": "50",
+        "detail": " that beautifully marries the rich, buttery sweetness of caramel ",
+        "type": "Ice cream cup",
         "onShop": true
     },
     {
         "id": "007",
-        "name": "Vanilla Ice Cream",
+        "name": "Coconut Island Breeze",
         "img": [
-            "img/product-1.jpg"
+            "img/CoconutIslandBreeze.png"
         ],
-        "price": "180.00",
-        "detail": "𝙉𝙚𝙬 𝘾𝙤𝙡𝙡𝙚𝙘𝙩𝙞𝙤𝙣 Vanilla ",
-        "type": "Goye",
+        "price": "20",
+        "detail": "is an ice cream flavor designed to transport you straight to a sun-drenched beach with its light",
+        "type": "Ice cream cone",
         "onShop": true
     },
     {
         "id": "008",
-        "name": "Vanilla Ice Cream",
+        "name": "Thai Tea Crush",
         "img": [
-            "img/product-1.jpg"
+            "img/ThaiTeaCrush.png"
         ],
-        "price": "180.00",
-        "detail": "𝙉𝙚𝙬 𝘾𝙤𝙡𝙡𝙚𝙘𝙩𝙞𝙤𝙣 Vanilla ",
-        "type": "Goye",
-        "onShop": true
-    },
-    {
-        "id": "009",
-        "name": "Vanilla Ice Cream",
-        "img": [
-            "img/product-1.jpg"
-        ],
-        "price": "180.00",
-        "detail": "𝙉𝙚𝙬 𝘾𝙤𝙡𝙡𝙚𝙘𝙩𝙞𝙤𝙣 Vanilla ",
-        "type": "Goye",
-        "onShop": true
-    },
-    {
-        "id": "010",
-        "name": "Vanilla Ice Cream",
-        "img": [
-            "img/product-1.jpg"
-        ],
-        "price": "180.00",
-        "detail": "𝙉𝙚𝙬 𝘾𝙤𝙡𝙡𝙚𝙘𝙩𝙞𝙤𝙣 Vanilla ",
-        "type": "Goye",
-        "onShop": true
-    },
-    {
-        "id": "011",
-        "name": "Vanilla Ice Cream",
-        "img": [
-            "img/product-1.jpg"
-        ],
-        "price": "180.00",
-        "detail": "𝙉𝙚𝙬 𝘾𝙤𝙡𝙡𝙚𝙘𝙩𝙞𝙤𝙣 Vanilla ",
-        "type": "Goye",
+        "price": "49",
+        "detail": "is an ice cream flavor that captures the distinctive, aromatic, and sweet essence of Thai Iced ",
+        "type": "Ice cream cone",
         "onShop": true
     }
-
 ]
