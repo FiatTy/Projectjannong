@@ -263,6 +263,11 @@
     <script>
         let allProducts = [];
 
+        function isLoggedIn() {
+            return (localStorage.getItem('isLoggedIn') === 'true' && localStorage.getItem('loggedInUserEmail')) ||
+                   (sessionStorage.getItem('isLoggedIn') === 'true' && sessionStorage.getItem('loggedInUserEmail'));
+        }
+
         function loadProducts(url) {
             fetch(url)
                 .then(response => response.json())
@@ -270,7 +275,7 @@
                     allProducts = data;
                     displayProducts(allProducts);
                 })
-                .catch(err => console.error("Load error:", err));
+                .catch(err => console.error("Load products error:", err));
         }
 
         function displayProducts(products) {
@@ -280,15 +285,17 @@
             products.forEach(product => {
                 if (product.name && product.img && product.img.length > 0 && product.price) {
                     const html = `
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-              <div class="product-item text-center bg-light rounded py-4 px-3">
-                <img class="rounded-circle mb-3" src="${product.img[0]}" width="120" height="120" style="object-fit:cover;">
-                <h5>${product.name}</h5>
-                <p>$${parseFloat(product.price).toFixed(2)}</p>
-                <button class="btn btn-sm btn-secondary" onclick='addToCart("${product.id}", "${product.name}", ${product.price})'>Add to Cart</button>
-              </div>
-            </div>
-          `;
+                        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                            <div class="product-item text-center bg-light rounded py-4 px-3">
+                                <img class="rounded-circle mb-3" src="${product.img[0]}" width="120" height="120" style="object-fit:cover;">
+                                <h5>${product.name}</h5>
+                                <p>$${parseFloat(product.price).toFixed(2)}</p>
+                                <!-- --- แก้ไขการเรียก addToCart ตรงนี้ --- -->
+                                <button class="btn btn-sm btn-secondary" onclick="handleAddToCartClick('${product.id}', '${product.name}', ${product.price})">Add to Cart</button>
+                                <!-- ----------------------------------- -->
+                            </div>
+                        </div>
+                    `;
                     container.innerHTML += html;
                 }
             });
@@ -303,24 +310,31 @@
             }
         }
 
+        function handleAddToCartClick(id, name, price) {
+            if (!isLoggedIn()) {
+                alert("กรุณาเข้าสู่ระบบก่อนเพิ่มสินค้าลงในตะกร้า.");
+                return; 
+            }
+            addToCart(id, name, price); 
+        }
+
         function addToCart(id, name, price) {
             fetch('http://localhost:4000/api/cart', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id, name, price, qty: 1 })
             })
-                .then(res => res.json())
-                .then(data => alert(`Added ${name} to cart`))
-                .catch(err => console.error("Add to cart failed:", err));
+            .then(res => res.json())
+            .then(data => alert(`เพิ่ม ${name} ลงในตะกร้าแล้ว!`)) 
+            .catch(err => console.error("Add to cart failed:", err));
         }
-
 
         window.onload = function () {
             loadProducts("http://localhost:4000/api/products");
 
             document.getElementById("searchInput").addEventListener("input", function () {
                 const keyword = this.value.toLowerCase();
-                const filtered = allProducts.filter(p => p.name.toLowerCase().includes(keyword));
+                const filtered = allProducts.filter(p => p.name.toLowerCase().includes(keyword) || (p.detail && p.detail.toLowerCase().includes(keyword)));
                 displayProducts(filtered);
             });
         };

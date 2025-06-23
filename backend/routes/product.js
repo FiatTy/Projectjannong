@@ -13,6 +13,7 @@ router.get('/', (req, res) => {
     fs.readFile(filePath, 'utf-8', (err, data) => {
         if (err) {
             console.error("Error reading product.json:", err);
+            
             return res.status(500).json({ status: "Internal server error", message: "Could not load product data." });
         }
 
