@@ -24,6 +24,44 @@
 
   <!-- Customized Bootstrap Stylesheet -->
   <link href="css/style.css" rel="stylesheet">
+  <style>
+    /* Add some basic styling for the message box */
+    .message-box {
+      padding: 10px;
+      margin-top: 15px;
+      border-radius: 5px;
+      display: none;
+      /* Hidden by default */
+    }
+
+    .message-box.block {
+      display: block;
+    }
+
+    .message-box.bg-red-100 {
+      background-color: #fce8e6;
+    }
+
+    .message-box.text-red-700 {
+      color: #c0392b;
+    }
+
+    .message-box.bg-green-100 {
+      background-color: #e6fce8;
+    }
+
+    .message-box.text-green-700 {
+      color: #27ae60;
+    }
+
+    .message-box.bg-blue-100 {
+      background-color: #e8f0fe;
+    }
+
+    .message-box.text-blue-700 {
+      color: #3498db;
+    }
+  </style>
 </head>
 
 <body>
@@ -90,71 +128,82 @@
 
   <body class="auth-page">
 
-    <div class="container mt-5">
+    <div class="container py-5">
       <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-6 col-lg-5">
+          <div id="authContainer">
+            <ul class="nav nav-tabs mb-4 justify-content-center" id="authTab">
+              <li class="nav-item">
+                <a class="nav-link active" id="login-tab" href="#" onclick="showForm('login')">Sign In</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="register-tab" href="#" onclick="showForm('register')">Register</a>
+              </li>
+            </ul>
 
-          <!-- Switch Tabs -->
-          <ul class="nav nav-tabs mb-4 justify-content-center" id="authTab">
-            <li class="nav-item">
-              <a class="nav-link active" id="login-tab" href="#" onclick="showForm('login')">Sign In</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="register-tab" href="#" onclick="showForm('register')">Register</a>
-            </li>
-          </ul>
+            <div class="card p-4 shadow-sm" id="loginForm">
+              <h4 class="text-center text-pink mb-4">Sign In</h4>
+              <form id="loginFormSubmit">
+                <div class="form-group">
+                  <input id="login-email" name="login-email" type="email" class="form-control" placeholder="Email"
+                    required>
+                </div>
+                <div class="form-group">
+                  <input id="login-password" name="login-password" type="password" class="form-control"
+                    placeholder="Password" required>
+                </div>
+                <div class="form-group form-check">
+                  <input type="checkbox" class="form-check-input" id="rememberMe">
+                  <label class="form-check-label" for="rememberMe">Remember Me</label>
+                </div>
+                <button id="login-button" type="submit" class="btn btn-success btn-block">LOGIN</button>
+              </form>
+            </div>
 
-          <!-- Login Form -->
-          <div class="card p-4 shadow-sm" id="loginForm">
-            <h4 class="text-center text-pink mb-4">Sign In</h4>
-            <form action="/login" method="POST">
-              <div class="form-group">
-                <input id="login-email" name="login-email" type="text" class="form-control" placeholder="Email" required>
-              </div>
-              <div class="form-group">
-                <input id="login-password" name="login-password" type="password" class="form-control"  placeholder="Password" required>
-              </div>
-              <button  id="login-button" type="submit" class="btn btn-success btn-block">LOGIN</button>
-            </form>
+            <div class="card p-4 shadow-sm d-none" id="registerForm">
+              <h4 class="text-center text-pink mb-4">Register</h4>
+              <form id="registerFormSubmit">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <input id="FnameReg" name="FnameReg" type="text" class="form-control" placeholder="First name"
+                      required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <input id="LnameReg" name="LnameReg" type="text" class="form-control" placeholder="Last name"
+                      required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <select id="categoryReg" name="categoryReg" class="form-control" required>
+                    <option value="">Role</option>
+                    <option value="student">Student</option>
+                    <option value="worker">Worker</option>
+                    <option value="Ordinary people">Ordinary people</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <input id="EmailReg" name="EmailReg" type="email" class="form-control" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                  <input id="PasswordReg" name="PasswordReg" type="password" class="form-control" placeholder="Password"
+                    required>
+                </div>
+                <input id="submit-reg" type="submit" class="btn btn-pink btn-block" value="Register">
+              </form>
+            </div>
           </div>
 
-          <!-- Register Form -->
-          <div class="card p-4 shadow-sm d-none" id="registerForm">
-            <h4 class="text-center text-pink mb-4">Register</h4>
-            <form action="/register" method="POST">
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <input id="FnameReg" name="FnameReg" type="text" class="form-control" placeholder="First name"
-                    required>
-                </div>
-                <div class="form-group col-md-6">
-                  <input id="LnameReg" name="LnameReg" type="text" class="form-control" placeholder="Last name"
-                    required>
-                </div>
-              </div>
-              <div class="form-group">
-                <select id="categoryReg" name="categoryReg" class="form-control" required>
-                  <option value="">Role</option>
-                  <option value="student">Student</option>
-                  <option value="worker">Worker</option>
-                  <option value="Ordinary people">Ordinary people</option>
-                </select>
-              </div>
+          <div id="message-box" class="message-box" role="alert"></div>
 
-              <div class="form-group">
-                <input id="EmailReg" name="EmailReg" type="email" class="form-control" placeholder="Email" required>
-              </div>
-              <div class="form-group">
-                <input id="PasswordReg" name="PasswordReg" type="password" class="form-control" placeholder="Password"
-                  required>
-              </div>
-              <input id="submit-reg" type="submit" onclick="RegSubmit(event)" class="btn btn-pink btn-block"
-                value="Register">
-            </form>
+          <div id="loggedInUserDisplay" class="card p-4 shadow-sm mt-4 text-center d-none">
+            <h4 class="mb-3">Welcome, <span id="displayUserName"></span>!</h4>
+            <button class="btn btn-danger btn-block" onclick="logout()">Logout</button>
           </div>
         </div>
       </div>
     </div>
+
 
     <script>
       function showForm(form) {
@@ -229,41 +278,86 @@
 
   <script>
 
-    function loadDoc(url, cFunction) {
-      const xhttp = new XMLHttpRequest();
-      xhttp.onload = function () { cFunction(this); }
-      xhttp.open("GET", url);
-      xhttp.send();
+    function showForm(form) {
+      document.getElementById('loginForm').classList.toggle('d-none', form !== 'login');
+      document.getElementById('registerForm').classList.toggle('d-none', form !== 'register');
+
+      document.getElementById('login-tab').classList.toggle('active', form === 'login');
+      document.getElementById('register-tab').classList.toggle('active', form === 'register');
+
+
+      const messageBox = document.getElementById('message-box');
+      if (messageBox) {
+        messageBox.classList.add('d-none');
+      }
     }
 
-    async function RegSubmit(e) {
+    // Display user
+    function showMessage(message, type = 'info') {
+      const messageBox = document.getElementById('message-box');
+      if (!messageBox) return;
+
+      messageBox.textContent = message;
+      messageBox.classList.remove('d-none', 'bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700', 'bg-blue-100', 'text-blue-700');
+      messageBox.classList.add('block');
+
+      if (type === 'error') {
+        messageBox.classList.add('bg-danger', 'text-white');
+      } else if (type === 'success') {
+        messageBox.classList.add('bg-success', 'text-white');
+      } else {
+        messageBox.classList.add('bg-info', 'text-white');
+      }
+
+
+      setTimeout(() => {
+        messageBox.classList.add('d-none');
+      }, 5000);
+    }
+
+    // Register ---
+    document.getElementById('registerFormSubmit').addEventListener('submit', async (e) => {
       e.preventDefault();
-      console.log('Hi');
+      console.log('Register attempt');
 
       const fname = document.getElementById('FnameReg').value;
       const lname = document.getElementById('LnameReg').value;
       const email = document.getElementById('EmailReg').value;
       const password = document.getElementById('PasswordReg').value;
       const category = document.getElementById('categoryReg').value;
-/*       const occupation = document.getElementById('occupation-list').value; */
 
       const data = { fname, lname, email, password, category };
 
-      //console.log(email);
-      const response = await fetch('http://localhost:4000/api/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      })
-      const result = await response.json();
-        alert(result.status);
-    };
+      try {
+        const response = await fetch('http://localhost:4000/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        showMessage(result.status, response.ok ? 'success' : 'error');
 
-    document.getElementById("login-button").addEventListener("click", async (e) => {
-      e.preventDefault();
+        if (response.ok) {
+          showForm('login');
+          document.getElementById('registerFormSubmit').reset();
+        }
+
+      } catch (err) {
+        console.error("Register error:", err);
+        showMessage("An error occurred during registration. Please try again.", 'error');
+      }
+    });
+
+    //Login ---
+    async function loginUser() {
       const email = document.getElementById("login-email").value.trim();
       const password = document.getElementById("login-password").value.trim();
-      if (!email || !password) return;
+      const rememberMe = document.getElementById('rememberMe').checked;
+
+      if (!email || !password) {
+        showMessage("Please enter both email and password.", 'error');
+        return;
+      }
 
       const credentials = { email, password };
 
@@ -275,13 +369,76 @@
         });
 
         const result = await response.json();
-        alert(result.status);
+
+        if (response.ok && result.status === "Login successfully.") {
+          showMessage(result.status, 'success');
+
+          if (rememberMe) {
+            localStorage.setItem('loggedInUserEmail', email);
+            localStorage.setItem('isLoggedIn', 'true');
+          } else {
+            sessionStorage.setItem('loggedInUserEmail', email);
+            sessionStorage.setItem('isLoggedIn', 'true');
+          }
+
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 1000);
+        } else {
+          showMessage(result.status || 'Login failed. Please try again.', 'error');
+        }
       } catch (err) {
         console.error("Login error:", err);
+        showMessage('An error occurred during login. Please try again later.', 'error');
       }
+    }
+
+    //EventListener
+    document.getElementById("loginFormSubmit").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      loginUser();
+    });
+
+    //Logout
+    function logout() {
+      localStorage.removeItem('loggedInUserEmail');
+      localStorage.removeItem('isLoggedIn');
+      sessionStorage.removeItem('loggedInUserEmail');
+      sessionStorage.removeItem('isLoggedIn');
+      alert("You have been logged out.");
+      window.location.reload();
+    }
+
+    function checkLoginStatusOnLoginPage() {
+      let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true' || sessionStorage.getItem('isLoggedIn') === 'true';
+      let userEmail = localStorage.getItem('loggedInUserEmail') || sessionStorage.getItem('loggedInUserEmail');
+
+      const authContainer = document.getElementById('authContainer');
+      const loggedInUserDisplay = document.getElementById('loggedInUserDisplay');
+      const displayUserName = document.getElementById('displayUserName');
+
+      if (isLoggedIn && userEmail) {
+        console.log(`User ${userEmail} is already logged in.`);
+        if (authContainer) authContainer.classList.add('d-none');
+        if (loggedInUserDisplay) loggedInUserDisplay.classList.remove('d-none');
+        if (displayUserName) displayUserName.textContent = userEmail;
+      } else {
+        console.log("No user logged in on this page.");
+        if (authContainer) authContainer.classList.remove('d-none');
+        if (loggedInUserDisplay) loggedInUserDisplay.classList.add('d-none');
+      }
+    }
+
+    //Eventlistener
+    document.addEventListener('DOMContentLoaded', () => {
+      showForm('login');
+      checkLoginStatusOnLoginPage();
     });
 
   </script>
+  <div class="container-fluid footer bg-light py-5" style="margin-top: 90px;">
+  </div>
+  <a href="#" class="btn btn-secondary px-2 back-to-top"><i class="fa fa-angle-double-up"></i></a>
 </body>
 
 </html>

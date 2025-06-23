@@ -9816,7 +9816,7 @@ h6,
   background-size: cover;
 }
 
-.section-title::before {
+/* .section-title::before {
   position: absolute;
   content: "";
   top: -10px;
@@ -9824,9 +9824,9 @@ h6,
   width: 100px;
   height: 5px;
   background: #F195B2;
-}
+} */
 
-.section-title::after {
+/* .section-title::after {
   position: absolute;
   content: "";
   top: -8px;
@@ -9834,7 +9834,7 @@ h6,
   width: 100px;
   height: 1px;
   background: #62C3E7;
-}
+} */
 
 .section-title.text-center::before,
 .section-title.text-center::after {
