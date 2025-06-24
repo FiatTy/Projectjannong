@@ -1,0 +1,14 @@
+[
+  {
+    "id": "002",
+    "name": "Choco Lava Bliss",
+    "price": 45,
+    "qty": 1
+  },
+  {
+    "id": "003",
+    "name": "Strawberry Sunset",
+    "price": 99,
+    "qty": 1
+  }
+]

@@ -124,42 +124,104 @@
 
   <!-- Script ใน order.html -->
 <script>
-function renderOrder() {
-  fetch("http://localhost:4000/api/cart")
-    .then(res => res.json())
-    .then(cart => {
-      const tbody = document.getElementById("order-table-body");
-      let total = 0;
-      tbody.innerHTML = "";
-      cart.forEach(item => {
-        const itemTotal = item.price * item.qty;
-        total += itemTotal;
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${item.name}</td>
-          <td>$${item.price.toFixed(2)}</td>
-          <td>${item.qty}</td>
-          <td>$${itemTotal.toFixed(2)}</td>
-        `;
-        tbody.appendChild(row);
-      });
-      document.getElementById("total-price").textContent = "$" + total.toFixed(2);
-    });
-}
+        // --- ฟังก์ชันสำหรับตรวจสอบสถานะ Login (เหมือนเดิม) ---
+        function isLoggedIn() {
+            return (localStorage.getItem('isLoggedIn') === 'true' && localStorage.getItem('loggedInUserEmail')) ||
+                   (sessionStorage.getItem('isLoggedIn') === 'true' && sessionStorage.getItem('loggedInUserEmail'));
+        }
 
-function resetCart() {
-  fetch("http://localhost:4000/api/cart", {
-    method: "DELETE"
-  })
-  .then(res => res.json())
-  .then(() => renderOrder());
-}
+        // --- ฟังก์ชันสำหรับดึง email ผู้ใช้ที่ Login อยู่ (เพิ่มเข้ามา) ---
+        function getLoggedInUserEmail() {
+            return localStorage.getItem('loggedInUserEmail') || sessionStorage.getItem('loggedInUserEmail');
+        }
+        // ----------------------------------------------------
 
-window.onload = renderOrder;
-</script>
+        function renderOrder() {
+            const userEmail = getLoggedInUserEmail(); // ดึง email ผู้ใช้ที่ Login
 
+            if (!userEmail) {
+                // ถ้ายังไม่ได้ Login ให้แสดงข้อความแจ้งเตือนและซ่อนตาราง
+                const tbody = document.getElementById("order-table-body");
+                tbody.innerHTML = '<tr><td colspan="4">กรุณาเข้าสู่ระบบเพื่อดูตะกร้าสินค้าของคุณ</td></tr>';
+                document.getElementById("total-price").textContent = "$0.00";
+                // คุณอาจจะซ่อนปุ่ม Reset และ Checkout ด้วยก็ได้
+                const checkoutButtons = document.querySelector('.d-flex.justify-content-between.align-items-center > div');
+                if (checkoutButtons) checkoutButtons.classList.add('d-none');
+                return;
+            }
 
-</script>
+            // ส่ง email ผู้ใช้ไปใน query parameter สำหรับ GET request
+            fetch(`http://localhost:4000/api/cart?email=${userEmail}`)
+                .then(res => {
+                    if (!res.ok) { // ตรวจสอบสถานะ response
+                        if (res.status === 401) {
+                            alert("Session หมดอายุ หรือไม่ได้ Login โปรด Login ใหม่");
+                            window.location.href = 'login.html'; // ส่งกลับไปหน้า Login
+                        }
+                        throw new Error(`HTTP error! status: ${res.status}`);
+                    }
+                    return res.json();
+                })
+                .then(cart => {
+                    const tbody = document.getElementById("order-table-body");
+                    let total = 0;
+                    tbody.innerHTML = ""; // Clear existing content
+
+                    if (cart.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="4">ตะกร้าสินค้าว่างเปล่า</td></tr>';
+                    } else {
+                        cart.forEach(item => {
+                            const itemTotal = item.price * item.qty;
+                            total += itemTotal;
+                            const row = document.createElement("tr");
+                            row.innerHTML = `
+                                <td>${item.name}</td>
+                                <td>$${item.price.toFixed(2)}</td>
+                                <td>${item.qty}</td>
+                                <td>$${itemTotal.toFixed(2)}</td>
+                            `;
+                            tbody.appendChild(row);
+                        });
+                    }
+                    document.getElementById("total-price").textContent = "$" + total.toFixed(2);
+                })
+                .catch(err => {
+                    console.error("Fetch order error:", err);
+                    const tbody = document.getElementById("order-table-body");
+                    tbody.innerHTML = '<tr><td colspan="4">เกิดข้อผิดพลาดในการโหลดตะกร้าสินค้า</td></tr>';
+                });
+        }
+
+        function resetCart() {
+            const userEmail = getLoggedInUserEmail(); // ดึง email ผู้ใช้ที่ Login
+
+            if (!userEmail) {
+                alert("กรุณาเข้าสู่ระบบก่อนทำการล้างตะกร้า.");
+                return;
+            }
+
+            fetch("http://localhost:4000/api/cart", {
+                method: "DELETE",
+                headers: { 'Content-Type': 'application/json' }, // ต้องระบุ Content-Type สำหรับ body
+                body: JSON.stringify({ email: userEmail }) // ส่ง email ไปใน body สำหรับ DELETE request
+            })
+            .then(res => {
+                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                return res.json();
+            })
+            .then(() => renderOrder())
+            .catch(err => {
+                console.error("Reset cart failed:", err);
+                alert("เกิดข้อผิดพลาดในการล้างตะกร้าสินค้า.");
+            });
+        }
+
+        window.onload = function() {
+            // เรียกฟังก์ชัน renderOrder เมื่อหน้าโหลดเสร็จ เพื่อดึงตะกร้าของ user
+            renderOrder();
+        };
+    </script>
+
 </body>
 
 </html>

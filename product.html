@@ -263,10 +263,17 @@
     <script>
         let allProducts = [];
 
+        // --- ฟังก์ชันสำหรับตรวจสอบสถานะ Login (เหมือนเดิม) ---
         function isLoggedIn() {
             return (localStorage.getItem('isLoggedIn') === 'true' && localStorage.getItem('loggedInUserEmail')) ||
                    (sessionStorage.getItem('isLoggedIn') === 'true' && sessionStorage.getItem('loggedInUserEmail'));
         }
+
+        // --- ฟังก์ชันสำหรับดึง email ผู้ใช้ที่ Login อยู่ (เพิ่มเข้ามา) ---
+        function getLoggedInUserEmail() {
+            return localStorage.getItem('loggedInUserEmail') || sessionStorage.getItem('loggedInUserEmail');
+        }
+        // ----------------------------------------------------
 
         function loadProducts(url) {
             fetch(url)
@@ -290,9 +297,7 @@
                                 <img class="rounded-circle mb-3" src="${product.img[0]}" width="120" height="120" style="object-fit:cover;">
                                 <h5>${product.name}</h5>
                                 <p>$${parseFloat(product.price).toFixed(2)}</p>
-                                <!-- --- แก้ไขการเรียก addToCart ตรงนี้ --- -->
                                 <button class="btn btn-sm btn-secondary" onclick="handleAddToCartClick('${product.id}', '${product.name}', ${product.price})">Add to Cart</button>
-                                <!-- ----------------------------------- -->
                             </div>
                         </div>
                     `;
@@ -313,21 +318,29 @@
         function handleAddToCartClick(id, name, price) {
             if (!isLoggedIn()) {
                 alert("กรุณาเข้าสู่ระบบก่อนเพิ่มสินค้าลงในตะกร้า.");
-                return; 
+                return;
             }
-            addToCart(id, name, price); 
+            addToCart(id, name, price);
         }
 
         function addToCart(id, name, price) {
+            const userEmail = getLoggedInUserEmail(); // ดึง email ผู้ใช้ที่ Login
+
+            if (!userEmail) { // ควรมี check อีกครั้ง แม้ handleAddToCartClick จะเช็คแล้ว
+                alert("เกิดข้อผิดพลาด: ไม่พบข้อมูลผู้ใช้ที่เข้าสู่ระบบ โปรดลอง Login ใหม่");
+                return;
+            }
+
             fetch('http://localhost:4000/api/cart', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id, name, price, qty: 1 })
+                body: JSON.stringify({ id, name, price, qty: 1, email: userEmail }) // ส่ง email ไปด้วย
             })
             .then(res => res.json())
-            .then(data => alert(`เพิ่ม ${name} ลงในตะกร้าแล้ว!`)) 
+            .then(data => alert(`เพิ่ม ${name} ลงในตะกร้าแล้ว!`))
             .catch(err => console.error("Add to cart failed:", err));
         }
+
 
         window.onload = function () {
             loadProducts("http://localhost:4000/api/products");

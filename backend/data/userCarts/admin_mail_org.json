@@ -1,0 +1,14 @@
+[
+  {
+    "id": "004",
+    "name": "Minty Frostbite",
+    "price": 42,
+    "qty": 1
+  },
+  {
+    "id": "006",
+    "name": "Caramel Sea Salt Swir",
+    "price": 50,
+    "qty": 1
+  }
+]
