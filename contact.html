@@ -44,17 +44,18 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav ml-auto py-0">
-                        <a href="index.html" class="nav-item nav-link">Home</a>
+                        <a href="index.html" class="nav-item nav-link active">Home</a>
                         <a href="about.html" class="nav-item nav-link">About</a>
-                        <a href="product.html" class="nav-item nav-link">Product</a>
+                        <a href="product.html" class="nav-item nav-link" id="productNavLink">Product</a>
                     </div>
                     <a href="index.html" class="navbar-brand mx-5 d-none d-lg-block">
-                        <h1 class="m-0 display-4 text-primary"><span class="text-secondary">Uruguay     i</span>CREAM</h1>
+                        <h1 class="m-0 display-4 text-primary"><span class="text-secondary">Uruguay i</span>CREAM</h1>
                     </a>
                     <div class="navbar-nav mr-auto py-0">
-                        <a href="login.html" class="nav-item nav-link">Login</a>
-                        <a href="order.html" class="nav-item nav-link">Order</a>
-                        <a href="contact.html" class="nav-item nav-link active">Contact</a>
+                        <a href="login.html" class="nav-item nav-link" id="loginNavLink">Login</a>
+                        <a href="order.html" class="nav-item nav-link" id="orderAdminNavLink">Order</a>
+                        <a href="#" class="nav-item nav-link" id="logoutNavLink" style="display: none;">Logout</a>
+                        <a href="contact.html" class="nav-item nav-link" id="contactNavLink">Contact</a>
                     </div>
                 </div>
             </nav>
@@ -92,24 +93,31 @@
                         <form name="sentMessage" id="contactForm" novalidate="novalidate">
                             <div class="form-row">
                                 <div class="col-sm-6 control-group">
-                                    <input type="text" class="form-control p-4" id="name" placeholder="Your Name" required="required" data-validation-required-message="Please enter your name" />
+                                    <input type="text" class="form-control p-4" id="name" placeholder="Your Name"
+                                        required="required" data-validation-required-message="Please enter your name" />
                                     <p class="help-block text-danger"></p>
                                 </div>
                                 <div class="col-sm-6 control-group">
-                                    <input type="email" class="form-control p-4" id="email" placeholder="Your Email" required="required" data-validation-required-message="Please enter your email" />
+                                    <input type="email" class="form-control p-4" id="email" placeholder="Your Email"
+                                        required="required"
+                                        data-validation-required-message="Please enter your email" />
                                     <p class="help-block text-danger"></p>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <input type="text" class="form-control p-4" id="subject" placeholder="Subject" required="required" data-validation-required-message="Please enter a subject" />
+                                <input type="text" class="form-control p-4" id="subject" placeholder="Subject"
+                                    required="required" data-validation-required-message="Please enter a subject" />
                                 <p class="help-block text-danger"></p>
                             </div>
                             <div class="control-group">
-                                <textarea class="form-control p-4" rows="6" id="message" placeholder="Message" required="required" data-validation-required-message="Please enter your message"></textarea>
+                                <textarea class="form-control p-4" rows="6" id="message" placeholder="Message"
+                                    required="required"
+                                    data-validation-required-message="Please enter your message"></textarea>
                                 <p class="help-block text-danger"></p>
                             </div>
                             <div>
-                                <button class="btn btn-primary btn-block py-3 px-5" type="submit" id="sendMessageButton">Send Message</button>
+                                <button class="btn btn-primary btn-block py-3 px-5" type="submit"
+                                    id="sendMessageButton">Send Message</button>
                             </div>
                         </form>
                     </div>
@@ -126,10 +134,11 @@
             <div class="row">
                 <div class="col-12 mb-4">
                     <a href="index.html" class="navbar-brand m-0">
-                        <h1 class="m-0 mt-n2 display-4 text-primary"><span class="text-secondary">Uruguay     i</span>CREAM</h1>
+                        <h1 class="m-0 mt-n2 display-4 text-primary"><span class="text-secondary">Uruguay i</span>CREAM
+                        </h1>
                     </a>
                 </div>
-               
+
                 <div class="col-12 mt-2 mb-4">
                     <div class="row">
                         <div class="col-sm-6 text-center text-sm-right border-right mb-3 mb-sm-0">
@@ -145,7 +154,8 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <p class="m-0">&copy; <a href="#">Domain</a>. All Rights Reserved. Designed by <a href="https://htmlcodex.com">HTML Codex</a>
+                    <p class="m-0">&copy; <a href="#">Domain</a>. All Rights Reserved. Designed by <a
+                            href="https://htmlcodex.com">HTML Codex</a>
                     </p>
                 </div>
             </div>
@@ -173,6 +183,7 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+    <script src="js/navbar-script.js"></script>
 </body>
 
 </html>

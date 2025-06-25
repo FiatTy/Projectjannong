@@ -1,90 +1,90 @@
 [
-    {
-        "id": "001",
-        "name": "Vanilla Ice Cream",
-        "img": [
-            "img/VanillaIceCream.jpg"
-        ],
-        "price": "89",
-        "detail": " Vanilla ice cream is a universally beloved frozen ",
-        "type": "Ice cream cone",
-        "onShop": true
-    },
-    {
-        "id": "002",
-        "name": "Choco Lava Bliss",
-        "img": [
-            "img/ChocoLavaBliss.jpg"
-        ],
-        "price": "45",
-        "detail": "ice cream flavor inspired by the classic molten chocolate ",
-        "type": "Ice cream cup",
-        "onShop": true
-    },
-    {
-        "id": "003",
-        "name": "Strawberry Sunset",
-        "img": [
-            "img/StrawberrySunset.jpg"
-        ],
-        "price": "99",
-        "detail": "Ice cream is a popular frozen dessert typically  ",
-        "type": "Ice cream cup",
-        "onShop": true
-    },
-    {
-        "id": "004",
-        "name": "Minty Frostbite",
-        "img": [
-            "img/MintyFrostbite.png"
-        ],
-        "price": "42",
-        "detail": "Minty Frostbite is an ice cream flavor ",
-        "type": "Ice cream cup",
-        "onShop": true
-    },
-    {
-        "id": "005",
-        "name": "Mango Tango Twist",
-        "img": [
-            "img/MangoTangoTwist.png"
-        ],
-        "price": "40",
-        "detail": " sounds like a fun, vibrant, and tropical ice cream flavor! ",
-        "type": "Ice cream cup",
-        "onShop": true
-    },
-    {
-        "id": "006",
-        "name": "Caramel Sea Salt Swir",
-        "img": [
-            "img/CaramelSeaSaltSwir.png"
-        ],
-        "price": "50",
-        "detail": " that beautifully marries the rich, buttery sweetness of caramel ",
-        "type": "Ice cream cup",
-        "onShop": true
-    },
-    {
-        "id": "007",
-        "name": "Coconut Island Breeze",
-        "img": [
-            "img/CoconutIslandBreeze.png"
-        ],
-        "price": "20",
-        "detail": "is an ice cream flavor designed to transport you straight to a sun-drenched beach with its light",
-        "type": "Ice cream cone",
-        "onShop": true
-    },
-    {
-        "id": "008",
-        "name": "Thai Tea Crush",
-        "img": [
-            "img/ThaiTeaCrush.png"
-        ],
-        "price": "49",
-        "detail": "is an ice cream flavor that captures the distinctive, aromatic, and sweet essence of Thai Iced ",
-        "type": "Ice cream cone",
-        "onShop": true
-    }
+  {
+    "id": "001",
+    "name": "Vanilla Ice Cream",
+    "img": [
+      "img/VanillaIceCream.jpg"
+    ],
+    "price": "89",
+    "detail": " Vanilla ice cream is a universally beloved frozen ",
+    "type": "Ice cream cone",
+    "onShop": true
+  },
+  {
+    "id": "002",
+    "name": "Choco Lava Bliss",
+    "img": [
+      "img/ChocoLavaBliss.jpg"
+    ],
+    "price": "45",
+    "detail": "ice cream flavor inspired by the classic molten chocolate ",
+    "type": "Ice cream cup",
+    "onShop": true
+  },
+  {
+    "id": "003",
+    "name": "Strawberry Sunset",
+    "img": [
+      "img/StrawberrySunset.jpg"
+    ],
+    "price": "99",
+    "detail": "Ice cream is a popular frozen dessert typically  ",
+    "type": "Ice cream cup",
+    "onShop": true
+  },
+  {
+    "id": "004",
+    "name": "Minty Frostbite",
+    "img": [
+      "img/MintyFrostbite.png"
+    ],
+    "price": "42",
+    "detail": "Minty Frostbite is an ice cream flavor ",
+    "type": "Ice cream cup",
+    "onShop": true
+  },
+  {
+    "id": "005",
+    "name": "Mango Tango Twist",
+    "img": [
+      "img/MangoTangoTwist.png"
+    ],
+    "price": "40",
+    "detail": " sounds like a fun, vibrant, and tropical ice cream flavor! ",
+    "type": "Ice cream cup",
+    "onShop": true
+  },
+  {
+    "id": "006",
+    "name": "Caramel Sea Salt Swir",
+    "img": [
+      "img/CaramelSeaSaltSwir.png"
+    ],
+    "price": "50",
+    "detail": " that beautifully marries the rich, buttery sweetness of caramel ",
+    "type": "Ice cream cup",
+    "onShop": true
+  },
+  {
+    "id": "007",
+    "name": "Coconut Island Breeze",
+    "img": [
+      "img/CoconutIslandBreeze.png"
+    ],
+    "price": "20",
+    "detail": "is an ice cream flavor designed to transport you straight to a sun-drenched beach with its light",
+    "type": "Ice cream cone",
+    "onShop": true
+  },
+  {
+    "id": "008",
+    "name": "Thai Tea Crush",
+    "price": 49,
+    "img": [
+      "img/ThaiTeaCrush.png"
+    ],
+    "type": "Ice cream cone",
+    "detail": "is an ice cream flavor that captures the distinctive, aromatic, and sweet essence of Thai Iced",
+    "onShop": true
+  }
 ]

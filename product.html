@@ -44,17 +44,18 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav ml-auto py-0">
-                        <a href="index.html" class="nav-item nav-link">Home</a>
+                        <a href="index.html" class="nav-item nav-link active">Home</a>
                         <a href="about.html" class="nav-item nav-link">About</a>
-                        <a href="product.html" class="nav-item nav-link active">Product</a>
+                        <a href="product.html" class="nav-item nav-link" id="productNavLink">Product</a>
                     </div>
                     <a href="index.html" class="navbar-brand mx-5 d-none d-lg-block">
                         <h1 class="m-0 display-4 text-primary"><span class="text-secondary">Uruguay i</span>CREAM</h1>
                     </a>
                     <div class="navbar-nav mr-auto py-0">
-                        <a href="login.html" class="nav-item nav-link">Login</a>
-                        <a href="order.html" class="nav-item nav-link">Order</a>
-                        <a href="contact.html" class="nav-item nav-link">Contact</a>
+                        <a href="login.html" class="nav-item nav-link" id="loginNavLink">Login</a>
+                        <a href="order.html" class="nav-item nav-link" id="orderAdminNavLink">Order</a>
+                        <a href="#" class="nav-item nav-link" id="logoutNavLink" style="display: none;">Logout</a>
+                        <a href="contact.html" class="nav-item nav-link" id="contactNavLink">Contact</a>
                     </div>
                 </div>
             </nav>
@@ -260,13 +261,14 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+    <script src="js/navbar-script.js"></script>
     <script>
         let allProducts = [];
 
         // --- ฟังก์ชันสำหรับตรวจสอบสถานะ Login (เหมือนเดิม) ---
         function isLoggedIn() {
             return (localStorage.getItem('isLoggedIn') === 'true' && localStorage.getItem('loggedInUserEmail')) ||
-                   (sessionStorage.getItem('isLoggedIn') === 'true' && sessionStorage.getItem('loggedInUserEmail'));
+                (sessionStorage.getItem('isLoggedIn') === 'true' && sessionStorage.getItem('loggedInUserEmail'));
         }
 
         // --- ฟังก์ชันสำหรับดึง email ผู้ใช้ที่ Login อยู่ (เพิ่มเข้ามา) ---
@@ -336,9 +338,9 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id, name, price, qty: 1, email: userEmail }) // ส่ง email ไปด้วย
             })
-            .then(res => res.json())
-            .then(data => alert(`เพิ่ม ${name} ลงในตะกร้าแล้ว!`))
-            .catch(err => console.error("Add to cart failed:", err));
+                .then(res => res.json())
+                .then(data => alert(`เพิ่ม ${name} ลงในตะกร้าแล้ว!`))
+                .catch(err => console.error("Add to cart failed:", err));
         }
 
 

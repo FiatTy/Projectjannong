@@ -46,15 +46,16 @@
                     <div class="navbar-nav ml-auto py-0">
                         <a href="index.html" class="nav-item nav-link active">Home</a>
                         <a href="about.html" class="nav-item nav-link">About</a>
-                        <a href="product.html" class="nav-item nav-link">Product</a>
+                        <a href="product.html" class="nav-item nav-link" id="productNavLink">Product</a>
                     </div>
                     <a href="index.html" class="navbar-brand mx-5 d-none d-lg-block">
                         <h1 class="m-0 display-4 text-primary"><span class="text-secondary">Uruguay i</span>CREAM</h1>
                     </a>
                     <div class="navbar-nav mr-auto py-0">
-                        <a href="login.html" class="nav-item nav-link">Login</a>
-                        <a href="order.html" class="nav-item nav-link">Order</a>
-                        <a href="contact.html" class="nav-item nav-link">Contact</a>
+                        <a href="login.html" class="nav-item nav-link" id="loginNavLink">Login</a>
+                        <a href="order.html" class="nav-item nav-link" id="orderAdminNavLink">Order</a>
+                        <a href="#" class="nav-item nav-link" id="logoutNavLink" style="display: none;">Logout</a>
+                        <a href="contact.html" class="nav-item nav-link" id="contactNavLink">Contact</a>
                     </div>
                 </div>
             </nav>
@@ -176,7 +177,7 @@
                         <h3 class="font-weight-bold text-secondary mb-0">$XX</h3>
                     </div>
                     <h3 class="font-weight-bold text-white mt-3 mb-4">Cheap Ice Cream</h3>
-                    <p class="text-white mb-4">The cheapest ice cream in  Uruguay</p>
+                    <p class="text-white mb-4">The cheapest ice cream in Uruguay</p>
                     <a href="" class="btn btn-secondary py-3 px-5 mt-2">Order Now</a>
                 </div>
             </div>
@@ -228,7 +229,7 @@
                                 <h5 class="font-weight-semi-bold mt-5 mb-3 pt-5">Quality Maintain</h5>
                                 <p>Dolor nonumy sed eos sed lorem diam amet eos magna. Dolor kasd lorem duo stet kasd
                                     justo</p>
-                                
+
                             </div>
                         </div>
                         <div class="service-item">
@@ -241,7 +242,7 @@
                                 <h5 class="font-weight-semi-bold mt-5 mb-3 pt-5">Individual Approach</h5>
                                 <p>Dolor nonumy sed eos sed lorem diam amet eos magna. Dolor kasd lorem duo stet kasd
                                     justo</p>
-                               
+
                             </div>
                         </div>
                         <div class="service-item">
@@ -254,7 +255,7 @@
                                 <h5 class="font-weight-semi-bold mt-5 mb-3 pt-5">Celebration Ice Cream</h5>
                                 <p>Dolor nonumy sed eos sed lorem diam amet eos magna. Dolor kasd lorem duo stet kasd
                                     justo</p>
-                                
+
                             </div>
                         </div>
                         <div class="service-item">
@@ -267,7 +268,7 @@
                                 <h5 class="font-weight-semi-bold mt-5 mb-3 pt-5">Delivery To Any Point</h5>
                                 <p>Dolor nonumy sed eos sed lorem diam amet eos magna. Dolor kasd lorem duo stet kasd
                                     justo</p>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -535,9 +536,11 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+    <script src="js/navbar-script.js"></script>
 </body>
 <!--db+api+webServer-->
 
 
 <!--db+api+webServer-->
+
 </html>

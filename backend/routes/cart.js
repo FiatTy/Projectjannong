@@ -3,37 +3,29 @@ const fs = require('fs');
 const path = require('path');
 const router = express.Router();
 
-// กำหนดโฟลเดอร์สำหรับเก็บตะกร้าของผู้ใช้แต่ละคน
+
 const userCartsDirectory = path.join(__dirname, '../data/userCarts'); // เปลี่ยนจาก cart.json เป็น userCarts/
 
-// ตรวจสอบว่าโฟลเดอร์ userCartsDirectory มีอยู่หรือไม่ ถ้าไม่มีให้สร้าง
+
 if (!fs.existsSync(userCartsDirectory)) {
     fs.mkdirSync(userCartsDirectory, { recursive: true });
     console.log(`Created directory: ${userCartsDirectory}`);
 }
 
-// Helper function to get the cart file path for a specific user
+//Newfile email
 const getUserCartFilePath = (userEmail) => {
-    // ใช้ email เป็นชื่อไฟล์ (ในระบบจริงควรใช้ UID)
     return path.join(userCartsDirectory, `${userEmail.replace(/[^a-z0-9]/gi, '_')}.json`);
-    // .replace(/[^a-z0-9]/gi, '_') ใช้เพื่อแทนที่อักขระพิเศษใน email ด้วย underscore
-    // เพื่อให้ชื่อไฟล์เป็นชื่อที่ถูกต้องตามระบบปฏิบัติการ
 };
 
-// --- Middleware สำหรับตรวจสอบ Login และดึง email (ใช้ซ้ำได้) ---
-// เราจะใช้ email ที่เก็บไว้ใน localStorage/sessionStorage ของ frontend
-// แล้วส่งมาใน req.headers.authorization หรือ req.body
-// เพื่อความง่ายในตัวอย่างนี้ เราจะรับ email ผ่าน req.query (GET) หรือ req.body (POST/DELETE)
-// และถือว่า email ที่ส่งมาถูกต้องแล้ว (ในระบบจริงต้องมีการตรวจสอบ token/session)
+
 const authenticateUser = (req, res, next) => {
-    // สำหรับ GET, DELETE: คาดว่า email จะมาใน req.query.email (e.g., /api/cart?email=user@example.com)
-    // สำหรับ POST: คาดว่า email จะมาใน req.body.email
+
     const userEmail = req.query.email || req.body.email;
 
     if (!userEmail) {
         return res.status(401).json({ error: 'Authentication required: User email is missing.' });
     }
-    req.userEmail = userEmail; // เก็บ email ไว้ใน req object เพื่อให้ route อื่นใช้ต่อได้
+    req.userEmail = userEmail; 
     next();
 };
 

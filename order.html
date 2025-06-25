@@ -134,7 +134,6 @@
         function getLoggedInUserEmail() {
             return localStorage.getItem('loggedInUserEmail') || sessionStorage.getItem('loggedInUserEmail');
         }
-        // ----------------------------------------------------
 
         function renderOrder() {
             const userEmail = getLoggedInUserEmail(); // ดึง email ผู้ใช้ที่ Login
