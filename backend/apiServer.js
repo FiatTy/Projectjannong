@@ -8,6 +8,8 @@ const productRoute = require('./routes/product');
 const cartRoute = require('./routes/cart');
 const registerRoute = require('./routes/register.js')
 const loginRoute = require('./routes/login.js')
+const checkoutRoute = require('./routes/checkout');
+
 
 const app = express();
 const PORT = 4000;
@@ -20,6 +22,8 @@ app.use('/api/products', productRoute);
 app.use('/api/cart', cartRoute);
 app.use('/api/register', registerRoute);
 app.use('/api/login', loginRoute);
+app.use('/api/checkout', checkoutRoute); 
+app.use('/api/admin', checkoutRoute); 
 
 
 app.listen(PORT, () => {

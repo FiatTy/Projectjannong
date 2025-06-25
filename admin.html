@@ -50,6 +50,20 @@
             border-radius: 8px;
             background-color: #f8f9fa;
         }
+        /* New style for checkout items display */
+        .checkout-items-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .checkout-items-list li {
+            margin-bottom: 5px;
+            border-bottom: 1px dashed #ddd;
+            padding-bottom: 5px;
+        }
+        .checkout-items-list li:last-child {
+            border-bottom: none;
+        }
     </style>
 </head>
 
@@ -67,15 +81,11 @@
                     <div class="navbar-nav ml-auto py-0">
                         <a href="index.html" class="nav-item nav-link">Home</a>
                         <a href="about.html" class="nav-item nav-link">About</a>
-                        <!-- <a href="product.html" class="nav-item nav-link">Product</a> -->
-                    </div>
+                        </div>
                     <a href="index.html" class="navbar-brand mx-5 d-none d-lg-block">
                         <h1 class="m-0 display-4 text-primary"><span class="text-secondary">Uruguay i</span>CREAM</h1>
                     </a>
                     <div class="navbar-nav mr-auto py-0">
-                        <!-- <a href="login.html" class="nav-item nav-link">Login</a> -->
-                        <!-- <a href="order.html" class="nav-item nav-link">Order</a>
-                        <a href="contact.html" class="nav-item nav-link">Contact</a> -->
                         <a href="admin.html" class="nav-item nav-link active">Admin</a> <a href="#" class="nav-item nav-link" onclick="logout()">Logout</a> </div>
                 </div>
             </nav>
@@ -96,75 +106,107 @@
             <div class="col-lg-12">
                 <div class="card shadow">
                     <div class="card-header bg-primary text-white text-center">
-                        <h3 class="mb-0">Product Management</h3>
+                        <h3 class="mb-0">Admin Dashboard</h3>
                     </div>
                     <div class="card-body">
-                        <div class="product-form">
-                            <h4 id="form-title">Add New Product</h4>
-                            <form id="productForm">
-                                <input type="hidden" id="productIdToEdit">
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="productId">Product ID</label>
-                                        <input type="text" class="form-control" id="productId" required>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="productName">Product Name</label>
-                                        <input type="text" class="form-control" id="productName" required>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="productPrice">Price</label>
-                                        <input type="number" step="0.01" class="form-control" id="productPrice" required>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="productType">Type</label>
-                                        <select class="form-control" id="productType" required>
-                                            <option value="">Select Type</option>
-                                            <option value="Ice cream cup">Ice cream cup</option>
-                                            <option value="Ice cream cone">Ice cream cone</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="productImg">Image URL (comma-separated, e.g., img/path1.jpg, img/path2.png)</label>
-                                    <input type="text" class="form-control" id="productImg" placeholder="e.g., img/VanillaIceCream.jpg">
-                                </div>
-                                <div class="form-group">
-                                    <label for="productDetail">Detail</label>
-                                    <textarea class="form-control" id="productDetail" rows="3"></textarea>
-                                </div>
-                                <div class="form-group form-check">
-                                    <input type="checkbox" class="form-check-input" id="onShop">
-                                    <label class="form-check-label" for="onShop">Available on Shop</label>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Save Product</button>
-                                <button type="button" class="btn btn-secondary" id="cancelEditBtn" style="display:none;">Cancel Edit</button>
-                            </form>
-                        </div>
+                        <ul class="nav nav-tabs mb-4" id="adminTabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="product-management-tab" data-toggle="tab" href="#productManagement" role="tab" aria-controls="productManagement" aria-selected="true">Product Management</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="checkout-tab" data-toggle="tab" href="#checkout" role="tab" aria-controls="checkout" aria-selected="false">Checkout</a>
+                            </li>
+                        </ul>
 
-                        <hr class="my-4">
+                        <div class="tab-content" id="adminTabsContent">
+                            <div class="tab-pane fade show active" id="productManagement" role="tabpanel" aria-labelledby="product-management-tab">
+                                <div class="product-form">
+                                    <h4 id="form-title">Add New Product</h4>
+                                    <form id="productForm">
+                                        <input type="hidden" id="productIdToEdit">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="productId">Product ID</label>
+                                                <input type="text" class="form-control" id="productId" required>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="productName">Product Name</label>
+                                                <input type="text" class="form-control" id="productName" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="productPrice">Price</label>
+                                                <input type="number" step="0.01" class="form-control" id="productPrice" required>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="productType">Type</label>
+                                                <select class="form-control" id="productType" required>
+                                                    <option value="">Select Type</option>
+                                                    <option value="Ice cream cup">Ice cream cup</option>
+                                                    <option value="Ice cream cone">Ice cream cone</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="productImg">Image URL (comma-separated, e.g., img/path1.jpg, img/path2.png)</label>
+                                            <input type="text" class="form-control" id="productImg" placeholder="e.g., img/VanillaIceCream.jpg">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="productDetail">Detail</label>
+                                            <textarea class="form-control" id="productDetail" rows="3"></textarea>
+                                        </div>
+                                        <div class="form-group form-check">
+                                            <input type="checkbox" class="form-check-input" id="onShop">
+                                            <label class="form-check-label" for="onShop">Available on Shop</label>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Save Product</button>
+                                        <button type="button" class="btn btn-secondary" id="cancelEditBtn" style="display:none;">Cancel Edit</button>
+                                    </form>
+                                </div>
 
-                        <h4 class="mb-3">Current Products</h4>
-                        <div id="message-box" class="message-box" role="alert"></div>
-                        <div class="table-responsive product-list">
-                            <table class="table table-striped table-bordered text-center">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Image</th>
-                                        <th>Name</th>
-                                        <th>Price</th>
-                                        <th>Type</th>
-                                        <th>Detail</th>
-                                        <th>On Shop</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="productTableBody">
-                                    </tbody>
-                            </table>
+                                <hr class="my-4">
+
+                                <h4 class="mb-3">Current Products</h4>
+                                <div id="message-box" class="message-box" role="alert"></div>
+                                <div class="table-responsive product-list">
+                                    <table class="table table-striped table-bordered text-center">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Image</th>
+                                                <th>Name</th>
+                                                <th>Price</th>
+                                                <th>Type</th>
+                                                <th>Detail</th>
+                                                <th>On Shop</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="productTableBody">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="checkout" role="tabpanel" aria-labelledby="checkout-tab">
+                                <h4 class="mb-3">Checkout Management</h4>
+                                <div id="checkout-message-box" class="message-box" role="alert"></div>
+                                <div class="table-responsive checkout-list">
+                                    <table class="table table-striped table-bordered text-center">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>Timestamp</th>
+                                                <th>User Email</th>
+                                                <th>Items</th>
+                                                <th>Total Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="checkoutTableBody">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -195,7 +237,7 @@
                 </div>
                 <div class="col-12">
                     <p class="m-0">&copy; <a href="#">Domain</a>. All Rights Reserved. Designed by <a
-                            href="https://htmlcodex.com">HTML Codex</a></p>
+                                href="https://htmlcodex.com">HTML Codex</a></p>
                 </div>
             </div>
         </div>
@@ -214,16 +256,17 @@
 
     <script>
         const API_BASE_URL = 'http://localhost:4000/api/products';
-        // !!! IMPORTANT: This ADMIN_KEY must match the key set in your backend/routes/products.js !!!
+        const CHECKOUT_API_BASE_URL = 'http://localhost:4000/api/admin'; // New base URL for admin checkout endpoints
+        // !!! IMPORTANT: This ADMIN_KEY must match the key set in your backend/routes/products.js and backend/routes/checkout.js !!!
         const ADMIN_KEY = 'myAdminSecretKey123'; // Make sure this matches the backend
 
         // Function to display messages (success/error)
-        function showMessage(message, type = 'info') {
-            const messageBox = document.getElementById('message-box');
+        function showMessage(message, type = 'info', targetBoxId = 'message-box') {
+            const messageBox = document.getElementById(targetBoxId);
             if (!messageBox) return;
 
             messageBox.textContent = message;
-            messageBox.classList.remove('d-none', 'bg-danger', 'text-white', 'bg-success', 'bg-info');
+            messageBox.classList.remove('d-none', 'bg-danger', 'text-white', 'bg-success', 'bg-info', 'block');
             messageBox.classList.add('block'); // Ensure it's displayed
 
             if (type === 'error') {
@@ -235,8 +278,9 @@
             }
 
             setTimeout(() => {
-                messageBox.classList.add('d-none');
-            }, 5000); // Hide after 5 seconds
+                messageBox.classList.remove('block');
+                messageBox.classList.add('d-none'); // Hide after 5 seconds
+            }, 5000);
         }
 
         // Function to check admin status and redirect if not admin
@@ -439,10 +483,62 @@
             }
         }
 
+        // NEW: Function to fetch and display all checkout data
+        async function fetchCheckouts() {
+            try {
+                const response = await fetch(`${CHECKOUT_API_BASE_URL}/all-checkouts`, {
+                    headers: {
+                        'X-Admin-Key': ADMIN_KEY
+                    }
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+                }
+
+                const checkouts = await response.json();
+                const tableBody = document.getElementById('checkoutTableBody');
+                tableBody.innerHTML = ''; // Clear existing rows
+
+                if (checkouts.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="4">No checkout data available.</td></tr>';
+                    return;
+                }
+
+                checkouts.forEach(checkout => {
+                    const timestamp = new Date(checkout.timestamp).toLocaleString();
+                    const itemsHtml = checkout.items.map(item => `
+                        <li>${item.name} (Qty: ${item.qty}) - $${parseInt(item.price * item.qty).toFixed(2)}</li>
+                    `).join('');
+
+                    const row = `
+                        <tr>
+                            <td>${timestamp}</td>
+                            <td>${checkout.userEmail}</td>
+                            <td><ul class="checkout-items-list">${itemsHtml}</ul></td>
+                            <td>$${parseFloat(checkout.totalAmount).toFixed(2)}</td>
+                        </tr>
+                    `;
+                    tableBody.innerHTML += row;
+                });
+            } catch (error) {
+                console.error('Error fetching checkout data:', error);
+                showMessage(`Failed to load checkout data: ${error.message}`, 'error', 'checkout-message-box');
+            }
+        }
+
         // Initial load of products when the page loads
         document.addEventListener('DOMContentLoaded', () => {
             checkAdminAccess(); // Check admin status on page load
             fetchProducts();
+
+            // Add event listener for tab change to load checkout data
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                if (e.target.id === 'checkout-tab') {
+                    fetchCheckouts();
+                }
+            });
         });
     </script>
 </body>

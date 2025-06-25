@@ -14,5 +14,13 @@
     "email": "admin@mail.org",
     "password": "1234",
     "category": "student"
+  },
+  {
+    "userAt": "2025-06-25T18:11:47.159Z",
+    "fname": "Guess",
+    "lname": "new",
+    "email": "Guess@gmail.com",
+    "password": "1234",
+    "category": "worker"
   }
 ]

@@ -1,0 +1,58 @@
+[
+  {
+    "timestamp": "2025-06-25T20:21:16.561Z",
+    "userEmail": "game@gmail.com",
+    "items": [
+      {
+        "id": "003",
+        "name": "Strawberry Sunset",
+        "price": 99,
+        "qty": 1
+      },
+      {
+        "id": "001",
+        "name": "Vanilla Ice Cream",
+        "price": 89,
+        "qty": 1
+      }
+    ],
+    "totalAmount": 188
+  },
+  {
+    "timestamp": "2025-06-25T20:32:36.053Z",
+    "userEmail": "game@gmail.com",
+    "items": [
+      {
+        "id": "002",
+        "name": "Choco Lava Bliss",
+        "price": 45,
+        "qty": 1
+      },
+      {
+        "id": "003",
+        "name": "Strawberry Sunset",
+        "price": 99,
+        "qty": 1
+      },
+      {
+        "id": "001",
+        "name": "Vanilla Ice Cream",
+        "price": 89,
+        "qty": 3
+      },
+      {
+        "id": "006",
+        "name": "Caramel Sea Salt Swir",
+        "price": 50,
+        "qty": 1
+      },
+      {
+        "id": "007",
+        "name": "Coconut Island Breeze",
+        "price": 20,
+        "qty": 1
+      }
+    ],
+    "totalAmount": 481
+  }
+]

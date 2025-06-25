@@ -14,6 +14,20 @@
   <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
   <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
+  <style>
+    /* Add some basic styling for the message box */
+    .message-box {
+      padding: 10px;
+      margin-top: 15px;
+      border-radius: 5px;
+      display: none;
+      /* Hidden by default */
+    }
+
+    .message-box.block {
+      display: block;
+    }
+  </style>
 </head>
 
 <body>
@@ -62,6 +76,7 @@
             <h3 class="mb-0">Order Summary</h3>
           </div>
           <div class="card-body">
+            <div id="order-message-box" class="message-box my-3" role="alert"></div>
             <div class="table-responsive">
               <table class="table table-bordered text-center mb-4">
                 <thead class="thead-light">
@@ -79,7 +94,7 @@
               <h4 class="mb-0">Total: <span id="total-price">$0.00</span></h4>
               <div>
                 <button onclick="resetCart()" class="btn btn-outline-danger me-2">Reset Order</button>
-                <a href="checkout.html" class="btn btn-success">Proceed to Checkout</a>
+                <a href="#" class="btn btn-success" id="proceedToCheckoutBtn">Proceed to Checkout</a>
               </div>
             </div>
 
@@ -95,7 +110,8 @@
       <div class="row">
         <div class="col-12 mb-4">
           <a href="index.html" class="navbar-brand m-0">
-            <h1 class="m-0 mt-n2 display-4 text-primary"><span class="text-secondary">Uruguay i</span>CREAM</h1>
+            <h1 class="m-0 mt-n2 display-4 text-primary"><span class="text-secondary">Uruguay i</span>CREAM
+            </h1>
           </a>
         </div>
         <div class="col-12 mt-2 mb-4">
@@ -123,38 +139,65 @@
   <!-- Back to Top -->
   <a href="#" class="btn btn-secondary px-2 back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
-  <!-- Script ใน order.html -->
+  <!-- Script in order.html -->
   <script>
-    // --- ฟังก์ชันสำหรับตรวจสอบสถานะ Login (เหมือนเดิม) ---
+    // Function to display messages (success/error)
+    function showOrderMessage(message, type = 'info') {
+      const messageBox = document.getElementById('order-message-box');
+      if (!messageBox) return;
+
+      messageBox.textContent = message;
+      messageBox.classList.remove('d-none', 'bg-danger', 'text-white', 'bg-success', 'bg-info');
+      messageBox.classList.add('block'); // Ensure it's displayed
+
+      if (type === 'error') {
+        messageBox.classList.add('bg-danger', 'text-white');
+      } else if (type === 'success') {
+        messageBox.classList.add('bg-success', 'text-white');
+      } else {
+        messageBox.classList.add('bg-info', 'text-white');
+      }
+
+      setTimeout(() => {
+        messageBox.classList.add('d-none');
+      }, 5000); // Hide after 5 seconds
+    }
+
+    // --- Function to check Login status ---
     function isLoggedIn() {
       return (localStorage.getItem('isLoggedIn') === 'true' && localStorage.getItem('loggedInUserEmail')) ||
         (sessionStorage.getItem('isLoggedIn') === 'true' && sessionStorage.getItem('loggedInUserEmail'));
     }
 
-    // --- ฟังก์ชันสำหรับดึง email ผู้ใช้ที่ Login อยู่ (เหมือนเดิม) ---
+    // --- Function to get logged in user's email ---
     function getLoggedInUserEmail() {
       return localStorage.getItem('loggedInUserEmail') || sessionStorage.getItem('loggedInUserEmail');
     }
 
-    // --- ฟังก์ชัน renderOrder() ที่แก้ไขแล้ว ---
+    // --- renderOrder() function ---
     function renderOrder() {
       const userEmail = getLoggedInUserEmail();
+      const checkoutButtons = document.querySelector('.d-flex.justify-content-between.align-items-center > div');
 
       if (!userEmail) {
         const tbody = document.getElementById("order-table-body");
-        tbody.innerHTML = '<tr><td colspan="4">กรุณาเข้าสู่ระบบเพื่อดูตะกร้าสินค้าของคุณ</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="4">Please log in to view your cart.</td></tr>';
         document.getElementById("total-price").textContent = "$0.00";
-        const checkoutButtons = document.querySelector('.d-flex.justify-content-between.align-items-center > div');
         if (checkoutButtons) checkoutButtons.classList.add('d-none');
         return;
+      } else {
+        if (checkoutButtons) checkoutButtons.classList.remove('d-none'); // Show buttons if logged in
       }
 
-      fetch(`http://localhost:4000/api/cart?email=${userEmail}`) // GET method ส่ง email ใน query parameter
+      fetch(`http://localhost:4000/api/cart?email=${userEmail}`) // GET method, send email in query parameter
         .then(res => {
           if (!res.ok) {
             if (res.status === 401) {
-              alert("Session หมดอายุ หรือไม่ได้ Login โปรด Login ใหม่");
-              window.location.href = 'login.html';
+              showOrderMessage("Session expired or not logged in. Please log in again.", 'error');
+              setTimeout(() => {
+                window.location.href = 'login.html';
+              }, 2000);
+              return; // Stop further processing if not authenticated
             }
             throw new Error(`HTTP error! status: ${res.status}`);
           }
@@ -163,35 +206,39 @@
         .then(cart => {
           const tbody = document.getElementById("order-table-body");
           let total = 0;
-          tbody.innerHTML = ""; // ล้างเนื้อหาเดิม
+          tbody.innerHTML = ""; // Clear existing content
 
           if (cart.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="4">ตะกร้าสินค้าว่างเปล่า</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="4">Your cart is empty.</td></tr>';
           } else {
             cart.forEach(item => {
-              const itemTotal = item.price * item.qty;
+              // Ensure item.price and item.qty are numbers, default to 0 if undefined or invalid
+              console.log(item);
+              const price = parseFloat(item.price) || 0; // แปลง price เป็นตัวเลขทศนิยม ถ้าไม่สำเร็จให้เป็น 0
+              const qty = parseInt(item.qty) || 0;     // แปลง qty เป็นตัวเลขเต็ม ถ้าไม่สำเร็จให้เป็น 0
+
+              const itemTotal = price * qty; // คำนวณราคารวม
               total += itemTotal;
               const row = document.createElement("tr");
-              // ส่วนนี้คือการแก้ไข HTML สำหรับปุ่ม + / -
               row.innerHTML = `
-                            <td>${item.name}</td>
-                            <td>$${item.price.toFixed(2)}</td>
-                            <td>
-                                <div class="input-group input-group-sm justify-content-center">
-                                    <div class="input-group-prepend">
-                                        <button class="btn btn-outline-secondary" type="button" 
-                                                onclick="updateQuantity('${item.name}', -1)">-</button>
-                                    </div>
-                                    <span class="form-control text-center" style="max-width: 50px;" 
-                                          id="qty-${item.name.replace(/\s+/g, '-') /* เปลี่ยนช่องว่างเป็นขีดกลางสำหรับ ID ที่ถูกต้อง */}">${item.qty}</span>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-outline-secondary" type="button" 
-                                                onclick="updateQuantity('${item.name}', 1)">+</button>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>$${itemTotal.toFixed(2)}</td>
-                        `;
+                              <td>${item.name || 'N/A'}</td>
+                              <td>$${price.toFixed(2)}</td>
+                              <td>
+                                  <div class="input-group input-group-sm justify-content-center">
+                                      <div class="input-group-prepend">
+                                          <button class="btn btn-outline-secondary" type="button"
+                                                  onclick="updateQuantity('${item.name}', -1)">-</button>
+                                      </div>
+                                      <span class="form-control text-center" style="max-width: 50px;"
+                                          id="qty-${item.name ? item.name.replace(/\s+/g, '-') : ''}">${qty}</span>
+                                      <div class="input-group-append">
+                                          <button class="btn btn-outline-secondary" type="button"
+                                                  onclick="updateQuantity('${item.name}', 1)">+</button>
+                                      </div>
+                                  </div>
+                              </td>
+                              <td>$${itemTotal.toFixed(2)}</td>
+                          `;
               tbody.appendChild(row);
             });
           }
@@ -200,43 +247,45 @@
         .catch(err => {
           console.error("Fetch order error:", err);
           const tbody = document.getElementById("order-table-body");
-          tbody.innerHTML = '<tr><td colspan="4">เกิดข้อผิดพลาดในการโหลดตะกร้าสินค้า</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="4">Error loading shopping cart.</td></tr>';
+          showOrderMessage("Error loading shopping cart. Please try again.", 'error');
         });
     }
 
-    // --- ฟังก์ชัน resetCart() (เหมือนเดิม) ---
+    // --- resetCart() function ---
     function resetCart() {
       const userEmail = getLoggedInUserEmail();
 
       if (!userEmail) {
-        alert("กรุณาเข้าสู่ระบบก่อนทำการล้างตะกร้า.");
+        showOrderMessage("Please log in before clearing the cart.", 'error');
         return;
       }
 
       fetch("http://localhost:4000/api/cart", {
         method: "DELETE",
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: userEmail }) // ส่ง email ใน body สำหรับ DELETE request
+        body: JSON.stringify({ email: userEmail }) // Send email in body for DELETE request
       })
         .then(res => {
           if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
           return res.json();
         })
         .then(() => {
-          alert("ตะกร้าสินค้าถูกล้างเรียบร้อยแล้ว!");
-          renderOrder(); // เรียก renderOrder() อีกครั้งเพื่ออัปเดตตาราง
+          alert("Shopping cart cleared successfully!");
+          /* showOrderMessage("Shopping cart cleared successfully!", 'success'); */
+          renderOrder(); // Call renderOrder() again to update the table
         })
         .catch(err => {
           console.error("Reset cart failed:", err);
-          alert("เกิดข้อผิดพลาดในการล้างตะกร้าสินค้า.");
+          showOrderMessage("Failed to clear shopping cart.", 'error');
         });
     }
 
-    // --- ฟังก์ชันใหม่: updateQuantity สำหรับปุ่ม + / - ---
+    // --- Function: updateQuantity for + / - buttons ---
     async function updateQuantity(itemName, change) {
       const userEmail = getLoggedInUserEmail();
       if (!userEmail) {
-        alert("กรุณาเข้าสู่ระบบเพื่อแก้ไขจำนวนสินค้า.");
+        showOrderMessage("Please log in to modify item quantity.", 'error');
         return;
       }
 
@@ -249,12 +298,12 @@
       }
 
       try {
-        // เรียก API Backend เพื่ออัปเดตจำนวนสินค้า (ส่ง email ใน body)
+        // Call Backend API to update item quantity (send email in body)
         const response = await fetch('http://localhost:4000/api/cart/update-quantity', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            email: userEmail, // ส่ง email ใน body
+            email: userEmail, // Send email in body
             itemName: itemName,
             newQty: newQty
           })
@@ -271,50 +320,87 @@
 
       } catch (error) {
         console.error('Error updating quantity:', error);
-        alert('เกิดข้อผิดพลาดในการอัปเดตจำนวนสินค้า: ' + error.message);
+        showOrderMessage('Error updating item quantity: ' + error.message, 'error');
       }
     }
 
-    // --- ฟังก์ชันใหม่: proceedToCheckout สำหรับปุ่ม "Proceed to Checkout" ---
-    function proceedToCheckout() {
+    // --- Function: proceedToCheckout for "Proceed to Checkout" button ---
+    async function proceedToCheckout() {
       if (!isLoggedIn()) {
-        alert("กรุณาเข้าสู่ระบบก่อนดำเนินการชำระเงิน.");
+        showOrderMessage("Please log in before proceeding to checkout.", 'error');
         return;
       }
 
       const userEmail = getLoggedInUserEmail();
       if (!userEmail) {
-        alert("ไม่พบข้อมูลผู้ใช้. กรุณาลองเข้าสู่ระบบใหม่.");
+        showOrderMessage("User information not found. Please try logging in again.", 'error');
         return;
       }
 
-      alert("ชำระเงิน สำเร็จ!");
+      try {
+        // 1. Fetch current cart to get items and totalAmount
+        const cartResponse = await fetch(`http://localhost:4000/api/cart?email=${userEmail}`);
+        if (!cartResponse.ok) {
+          throw new Error(`HTTP error fetching cart! status: ${cartResponse.status}`);
+        }
+        const currentCart = await cartResponse.json();
 
-      fetch("http://localhost:4000/api/cart", {
-        method: "DELETE",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: userEmail }) // ส่ง email ใน body
-      })
-        .then(res => {
-          if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-          return res.json();
-        })
-        .then(() => {
-          console.log("ตะกร้าสินค้าถูกล้างหลังชำระเงินเรียบร้อยแล้ว");
-          renderOrder();
-        })
-        .catch(err => {
-          console.error("Failed to reset cart after checkout:", err);
-          alert("ชำระเงินสำเร็จ แต่เกิดข้อผิดพลาดในการล้างตะกร้าสินค้า. กรุณาติดต่อผู้ดูแลระบบ.");
+        if (currentCart.length === 0) {
+          showOrderMessage("Your cart is empty. Please add items before checking out.", 'info');
+          return;
+        }
+
+        const totalAmount = currentCart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+        // 2. Send checkout data to backend
+        const checkoutResponse = await fetch("http://localhost:4000/api/checkout", {
+          method: "POST",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: userEmail,
+            cart: currentCart, // Send the full cart array
+            totalAmount: totalAmount
+          })
         });
+
+        if (!checkoutResponse.ok) {
+          const errorData = await checkoutResponse.json();
+          throw new Error(errorData.message || `HTTP error! status: ${checkoutResponse.status}`);
+        }
+
+        await checkoutResponse.json();
+        alert("Checkout successful! Your order has been placed");
+        /* showOrderMessage("Checkout successful! Your order has been placed.", 'success'); */
+
+        // 3. Clear the cart after successful checkout
+        const clearCartResponse = await fetch("http://localhost:4000/api/cart", {
+          method: "DELETE",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: userEmail }) // Send email in body
+        });
+
+        if (!clearCartResponse.ok) {
+          throw new Error(`HTTP error clearing cart! status: ${clearCartResponse.status}`);
+        }
+
+        await clearCartResponse.json();
+        console.log("Cart cleared after successful checkout.");
+        renderOrder(); // Re-render the order table to show empty cart
+
+      } catch (error) {
+        console.error("Checkout process failed:", error);
+        showOrderMessage(`Checkout failed: ${error.message}. Please try again or contact support.`, 'error');
+      }
     }
+
 
     window.onload = function () {
       renderOrder();
-      const checkoutButton = document.querySelector('.btn-success[href="checkout.html"]');
+      // Changed to use ID for clarity
+      const checkoutButton = document.getElementById('proceedToCheckoutBtn');
       if (checkoutButton) {
         checkoutButton.addEventListener('click', function (event) {
-          event.preventDefault();
+          event.preventDefault(); // Prevent default anchor tag behavior
           proceedToCheckout();
         });
       }
