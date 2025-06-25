@@ -1,14 +1,20 @@
 [
   {
-    "id": "002",
-    "name": "Choco Lava Bliss",
-    "price": 45,
+    "id": "005",
+    "name": "Mango Tango Twist",
+    "price": 40,
     "qty": 1
   },
   {
-    "id": "003",
-    "name": "Strawberry Sunset",
-    "price": 99,
-    "qty": 1
+    "id": "002",
+    "name": "Choco Lava Bliss",
+    "price": 45,
+    "qty": 3
+  },
+  {
+    "id": "006",
+    "name": "Caramel Sea Salt Swir",
+    "price": 50,
+    "qty": 3
   }
 ]

@@ -17,7 +17,6 @@ const getUserCartFilePath = (userEmail) => {
     return path.join(userCartsDirectory, `${userEmail.replace(/[^a-z0-9]/gi, '_')}.json`);
 };
 
-
 const authenticateUser = (req, res, next) => {
 
     const userEmail = req.query.email || req.body.email;
@@ -25,7 +24,7 @@ const authenticateUser = (req, res, next) => {
     if (!userEmail) {
         return res.status(401).json({ error: 'Authentication required: User email is missing.' });
     }
-    req.userEmail = userEmail; 
+    req.userEmail = userEmail; // เก็บ email ไว้ใน req object เพื่อให้ route อื่นใช้ต่อได้
     next();
 };
 
@@ -53,21 +52,81 @@ router.get('/', authenticateUser, (req, res) => {
     });
 });
 
-// POST /api/cart (เพิ่มหรืออัปเดตสินค้าในตะกร้าของ user)
-router.post('/', authenticateUser, (req, res) => {
-    const { id, name, price, qty } = req.body; // newItem ตอนนี้ถูกแยกออกมา
-    const newItem = { id, name, price, qty }; // สร้าง newItem object ขึ้นมาใหม่
+router.post('/update-quantity', authenticateUser, (req, res) => {
+    const { id, itemName, newQty } = req.body;
+
+    // ตรวจสอบว่าได้รับข้อมูลที่จำเป็นครบถ้วน
+    if (!req.userEmail || (!id && !itemName) || typeof newQty === 'undefined' || newQty < 0) {
+        return res.status(400).json({ message: 'Missing required fields or invalid quantity.' });
+    }
 
     const userCartFilePath = getUserCartFilePath(req.userEmail);
 
     fs.readFile(userCartFilePath, 'utf8', (err, data) => {
         let cart = [];
-        if (!err) { // ถ้าอ่านไฟล์ได้สำเร็จและไม่มี error
+        if (!err && data) {
+            try {
+                cart = JSON.parse(data);
+            } catch (e) {
+                console.error(`Error parsing existing cart for ${req.userEmail} on UPDATE_QTY:`, e);
+                cart = [];
+            }
+        }
+
+        let itemFound = false;
+        if (newQty === 0) {
+            const initialLength = cart.length;
+            cart = cart.filter(item => {
+                const matchById = id && item.id === id;
+                const matchByName = itemName && item.name === itemName;
+                return !(matchById || matchByName);
+            });
+            if (cart.length < initialLength) {
+                itemFound = true;
+            }
+        } else {
+            const existingItemIndex = cart.findIndex(item => {
+                const matchById = id && item.id === id;
+                const matchByName = itemName && item.name === itemName;
+                return matchById || matchByName;
+            });
+
+            if (existingItemIndex !== -1) {
+                cart[existingItemIndex].qty = newQty;
+                itemFound = true;
+            }
+        }
+
+        if (!itemFound && newQty > 0) {
+            return res.status(404).json({ message: 'Item not found in cart for update.' });
+        } else if (!itemFound && newQty === 0) {
+            return res.json({ message: 'Item not found in cart to remove (might be already removed).' });
+        }
+
+        fs.writeFile(userCartFilePath, JSON.stringify(cart, null, 2), err => {
+            if (err) {
+                console.error(`Failed to write cart for ${req.userEmail} on UPDATE_QTY:`, err);
+                return res.status(500).json({ error: 'Failed to update cart.' });
+            }
+            res.json({ success: true, message: 'Cart updated successfully.', cart });
+        });
+    });
+});
+
+// POST /api/cart (เพิ่มหรืออัปเดตสินค้าในตะกร้าของ user)
+router.post('/', authenticateUser, (req, res) => {
+    const { id, name, price, qty } = req.body;
+    const newItem = { id, name, price, qty };
+
+    const userCartFilePath = getUserCartFilePath(req.userEmail);
+
+    fs.readFile(userCartFilePath, 'utf8', (err, data) => {
+        let cart = [];
+        if (!err) {
             try {
                 cart = JSON.parse(data);
             } catch (e) {
                 console.error(`Error parsing existing cart for ${req.userEmail} on POST:`, e);
-                // ถ้าไฟล์เสีย ก็เริ่มต้นตะกร้าใหม่
                 cart = [];
             }
         }
@@ -93,7 +152,7 @@ router.post('/', authenticateUser, (req, res) => {
 router.delete('/', authenticateUser, (req, res) => {
     const userCartFilePath = getUserCartFilePath(req.userEmail);
 
-    fs.writeFile(userCartFilePath, '[]', err => { // เขียน array ว่างลงไปในไฟล์ของผู้ใช้
+    fs.writeFile(userCartFilePath, '[]', err => {
         if (err) {
             console.error(`Failed to clear cart for ${req.userEmail}:`, err);
             return res.status(500).json({ error: 'Failed to clear cart.' });
